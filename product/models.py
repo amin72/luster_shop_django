@@ -17,8 +17,8 @@ class Category(models.Model):
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
-    price = models.FloatField()
-    discount_price = models.FloatField(blank=True, null=True)
+    price = models.PositiveIntegerField()
+    discount_price = models.PositiveIntegerField(blank=True, null=True)
     category = models.ForeignKey(Category, blank=True, null=True,
         on_delete=models.SET_NULL)
     slug = models.SlugField(unique=True)
