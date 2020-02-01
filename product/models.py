@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 
 
 class Category(models.Model):
@@ -29,5 +30,8 @@ class Item(models.Model):
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self):
+        return reverse('product:detail', kwargs={'slug': self.slug})
+
     class Meta:
         ordering = ['-created_at']
