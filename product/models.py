@@ -22,7 +22,7 @@ class Item(models.Model):
     discount_price = models.PositiveIntegerField(blank=True, null=True)
     category = models.ForeignKey(Category, blank=True, null=True,
         on_delete=models.SET_NULL)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, allow_unicode=True)
     description = models.TextField()
     image = models.ImageField()
     created_at = models.DateTimeField(auto_now_add=True)
