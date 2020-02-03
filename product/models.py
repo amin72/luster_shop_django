@@ -93,3 +93,33 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(OrderItem)
+    start_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField()
+    ordered = models.BooleanField(default=False)
+
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
+    
+    # delivery
+    being_delivered = models.BooleanField(default=False)
+    received = models.BooleanField(default=False)
+    
+    # refund
+    refund_requested = models.BooleanField(default=False)
+    refund_granted = models.BooleanField(default=False)
+    ref_code = models.CharField(max_length=24, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total
