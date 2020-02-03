@@ -65,3 +65,19 @@ class OrderItem(models.Model):
         if self.item.discount_price:
             return self.get_total_discount_item_price()
         return self.get_total_item_price()
+
+
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    province = models.CharField(max_length=50, choices=[])
+    city = models.CharField(max_length=50, choices=[])
+    street_address = models.CharField(max_length=10)
+    zip_code = models.CharField(max_length=100)
+    default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.province}"
+    
+    class Meta:
+        verbose_name_plural = 'Addresses'
