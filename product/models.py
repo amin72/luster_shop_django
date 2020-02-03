@@ -81,3 +81,15 @@ class Address(models.Model):
     
     class Meta:
         verbose_name_plural = 'Addresses'
+
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    card_number = models.CharField(max_length=16)
+    transaction_id = models.CharField(max_length=50)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
