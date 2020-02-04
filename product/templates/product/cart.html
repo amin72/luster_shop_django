@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <div class="table-responsive text-nowrap mt-3">
+        <h2 class="text-center">سبد خرید</h2>
+        <hr>
+
+        <table class="table mt-4">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">عنوان</th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">تعداد</th>
+                    <th scope="col">مجموع</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in object.items.all %}
+                    <tr class="text-center">
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order_item.item.title }}</td>
+                        <td>
+                            {% if order_item.item.discount_price %}
+                                {{ order_item.item.discount_price }}
+                            {% else %}
+                                {{ order_item.item.price }}
+                            {% endif %}
+                            تومان
+                        </td>
+                        <td>
+                            {% comment %} <a href="{% url 'product:remove_single_item_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a> {% endcomment %}
+                            <a href="#"><i class="fas fa-minus mr-2"></i></a>
+
+                            {{ order_item.quantity }}
+
+                            <a href="{% url 'product:add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+                        </td>
+                        <td>
+                            {% if order_item.item.discount_price %}
+                                {{ order_item.get_total_discount_item_price }} تومان
+                                <span class="badge badge-secondary">
+                                    تخفیف {{ order_item.get_amount_saved }} تومان
+                                </span>
+                            {% else %}
+                                {{ order_item.get_total_item_price }} تومان
+                            {% endif %}
+                            
+                        </td>
+                        <td>
+                            {% comment %} <a style="color: red;" href="{% url 'product:remove_from_cart' order_item.item.slug %}"> {% endcomment %}
+                            <a class="trash" href="#">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Your cart is empty</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class="btn btn-primary float-right" href="{% url 'product:product_list' %}">Continue shopping</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                {% if object.coupon %}
+                    <tr>
+                        <td colspan="4"><strong>Coupon</strong></td>
+                        <td><strong>-${{ object.coupon.amount }}</strong></td>
+                    </tr>
+                {% endif %}
+
+                {% if object.get_total %}
+                    <tr class="text-right">
+                        <td></td>
+                        <td colspan="1"><h4>قیمت کل</h4></td>
+                        <td><h4>{{ object.get_total }} تومان</h4></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            {% comment %} <a class="btn btn-default float-right ml-2" href="{% url 'product:checkout' %}">Proceed to checkout</a> {% endcomment %}
+                            <a class="btn btn-primary float-right ml-2" href="#">پرداخت</a>
+                            <a class="btn btn-default float-right" href="{% url 'product:list' %}">بازگشت به صفحه  اصلی</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

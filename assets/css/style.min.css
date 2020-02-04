@@ -3,3 +3,7 @@
 body {
     direction: rtl;
 }
+
+.trash {
+    color: #ff4050 !important;
+}
