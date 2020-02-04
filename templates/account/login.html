@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+
+{% block content %}
+
+    <!--Section: Products-->
+    <section class="mt-3 mb-4">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+            <div class="offset-lg-3 col-lg-6 col-12 mx-auto">
+                <h1 class="text-center mb-2">ورود</h1>
+                <hr>
+
+                <p class="text-right mt-4">اگر هنوز ثبت نام نکرده اید لطفا ابتدا در اینجا <a href="{{ signup_url }}">ثبت نام</a> کنید.</p>
+
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    
+
+                    <div id="div_id_login" class="form-group">
+                        <label for="id_login" class="col-form-label requiredField float-right">
+                            نام کاربری<span class="asteriskField">*</span>
+                        </label>
+                        <div class="">
+                            <input type="text" name="login" placeholder="نام کاربری" autofocus="autofocus" maxlength="150" class="textinput textInput form-control" required id="id_login">
+                        </div>
+                    </div>
+                    
+                    <div id="div_id_password" class="form-group">
+                        <label for="id_password" class="col-form-label requiredField float-right">
+                            رمز عبور<span class="asteriskField">*</span>
+                        </label>
+                        <div class="">
+                            <input type="password" name="password" placeholder="رمز عبور" class="textinput textInput form-control" required id="id_password">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div id="div_id_remember" class="form-check float-right">
+                            <input type="checkbox" name="remember" class="checkboxinput form-check-input" id="id_remember">
+                            <label for="id_remember" class="form-check-label mr-3">
+                                مرا به خاطر بسپار
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    
+                    <div class="mt-3 float-right">
+                        <button class="btn btn-primary" type="submit">ورود</button>
+                        <a class="btn btn-default" href="{% url 'account_reset_password' %}">فراموشی رمز عبور</a>
+                    </div>
+                </form>
+
+            </div> <!-- col-12 -->
+        </div>
+    </section>
+
+{% endblock %}
