@@ -146,3 +146,7 @@ AUTHENTICATION_BACKENDS = (
 
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
