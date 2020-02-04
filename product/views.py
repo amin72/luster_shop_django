@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from django.contrib import messages
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import (
     Item,
@@ -36,13 +38,13 @@ def add_to_cart(request, slug):
             order_item.quantity += 1
             order_item.save()
             messages.info(request, "This item quantity was updated.")
-            return redirect('product:list')
+            return redirect('product:cart')
         else:
             messages.info(request, "This item was added to your cart.")
             order_item.quantity = 1
             order_item.save()
             order.items.add(order_item)
-            return redirect('product:list')
+            return redirect('product:cart')
     else:
         # order does not exist. create order and add order item to it.
         ordered_date = timezone.now()
@@ -50,4 +52,17 @@ def add_to_cart(request, slug):
             ordered_date=ordered_date)
         order.items.add(order_item)
         messages.info(request, "This item was added to your cart.")
-        return redirect('product:list')
+        return redirect('product:cart')
+
+
+
+class CartView(LoginRequiredMixin, View):
+    template_name = 'product/cart.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=request.user, ordered=False)
+            return render(request, self.template_name, {'object': order})
+        except ObjectDoesNotExist:
+            messages.error(request, "You do not have an active order")
+            return redirect('product:list')
