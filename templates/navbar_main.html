@@ -23,24 +23,24 @@
       <!-- Right -->
       <ul class="navbar-nav">
         {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="#">
-              <i class="fas fa-shopping-cart"></i>
+          <li class="nav-item ml-auto">
+            <a class="nav-link waves-effect" href="{% url 'product:cart' %}">
               <sub class="badge red">5</sub>
+              <i class="fas fa-shopping-cart"></i>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ml-auto">
             <a href="{% url 'account_logout' %}" class="nav-link waves-effect">
               <span class="clearfix d-sm-inline-block"> خروج </span>
             </a>
           </li>
         {% else %}
-          <li class="nav-item">
+          <li class="nav-item ml-auto">
             <a href="{% url 'account_login' %}" class="nav-link waves-effect">
               <span class="clearfix d-sm-inline-block"> ورود </span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ml-auto">
             <a href="{% url 'account_signup' %}" class="nav-link waves-effect">
               <span class="clearfix d-sm-inline-block"> ثبت نام </span>
             </a>
