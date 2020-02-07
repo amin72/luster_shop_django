@@ -10,6 +10,9 @@ from .forms import SignUpForm, LoginForm
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('product:list')
+
     form = SignUpForm(request.POST or None)
 
     if form.is_valid():
@@ -40,6 +43,9 @@ def signup(request):
 
 
 def signin(request):
+    if request.user.is_authenticated:
+        return redirect('product:list')
+
     form = LoginForm(request.POST or None)
 
     if form.is_valid():
@@ -70,6 +76,9 @@ def signin(request):
 
 
 def signout(request):
+    if not request.user.is_authenticated:
+        return redirect('product:list')
+
     logout(request)
     messages.info(request, _("You're signed out!"))
     return redirect('product:list')
