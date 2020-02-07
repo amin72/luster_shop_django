@@ -37,3 +37,17 @@ class SignUpForm(forms.ModelForm):
         if password and password2 and password != password2:
             raise forms.ValidationError(_("Passwords don't match"))
         return password2
+
+
+
+class LoginForm(forms.Form):
+    phone_number = forms.CharField(label="", max_length=11, min_length=11,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'شماره موبایل'
+        })
+    )
+
+    password = forms.CharField(label="", widget=forms.TextInput(attrs={
+        'type': 'password',
+        'placeholder': 'رمز عبور'
+    }))
