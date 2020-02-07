@@ -14,7 +14,6 @@ def signup(request):
 
     if form.is_valid():
         user = form.save(commit=False)
-        phone_number = form.cleaned_data.get('phone_number')
         password = form.cleaned_data.get('password')
 
         try:
@@ -28,7 +27,7 @@ def signup(request):
             # redirect user to verify the code
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            messages.success(request, 'User created successfully!')
+            messages.success(request, _('User created successfully!'))
             return redirect('product:list')
         except ValidationError as e:
             form.add_error('password', e)
@@ -55,15 +54,13 @@ def signin(request):
             # if credentials were correct, login user
             if user:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                messages.success(request, "You're logged in successfully!")
+                messages.success(request, _("You're logged in successfully!"))
                 return redirect('product:list')
             else:
-                messages.error(request, "Your credentials are incorrect!")
+                messages.error(request, _("Your credentials are incorrect!"))
 
         except ValidationError as e:
             form.add_error('password', e)
-        except ValueError as e:
-            print(e)
 
     context = {
         'form': form
