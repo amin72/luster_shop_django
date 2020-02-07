@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .forms import SignUpForm, LoginForm
 
@@ -66,3 +66,10 @@ def signin(request):
         'form': form
     }
     return render(request, "account/login.html", context)
+
+
+
+def signout(request):
+    logout(request)
+    messages.info(request, _("You're signed out!"))
+    return redirect('product:list')
