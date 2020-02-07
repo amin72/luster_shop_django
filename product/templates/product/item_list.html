@@ -30,7 +30,7 @@
             <!--Card content-->
             <div class="card-body text-center">
               <!--Category & Title-->
-              <a href="" class="grey-text">
+              <a href="{% url 'product:list' %}?category={{ item.category.name }}" class="grey-text">
                 <h5>{{ item.category.label }}</h5>
               </a>
 
