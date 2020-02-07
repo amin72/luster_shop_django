@@ -20,7 +20,21 @@ from .mixins import (
 
 class ItemListView(CategoriesMixIn, ListView):
     model = Item
+    
+    def get_queryset(self):
+        category = self.request.GET.get('category')
+        q = self.request.GET.get('q') # search
 
+        queryset = super().get_queryset()
+
+        if category:
+            queryset = queryset.filter(category__name=category)
+
+        if q:
+            query = (Q(title__icontains=q) | Q(description__icontains=q))
+            queryset = queryset.filter(query)
+
+        return queryset
 
 
 class ItemDetailView(CategoriesMixIn, DetailView):
