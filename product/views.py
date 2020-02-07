@@ -4,20 +4,26 @@ from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 from .models import (
     Item,
     OrderItem,
     Order,
+    Category,
+)
+from .mixins import (
+    CategoriesMixIn,
 )
 
 
-class ItemListView(ListView):
+
+class ItemListView(CategoriesMixIn, ListView):
     model = Item
 
 
 
-class ItemDetailView(DetailView):
+class ItemDetailView(CategoriesMixIn, DetailView):
     model = Item
 
 
