@@ -9,30 +9,20 @@
 {% block content %}
 
     <!--Section: Products-->
-    <section class="mt-3 mb-4">
+    <section class="mb-4">
 
         <!--Grid row-->
         <div class="row wow fadeIn">
-            <div class="offset-lg-3 col-lg-6 col-12 mx-auto">
-                <h1 class="text-center mb-2">ورود</h1>
+            <div class="offset-lg-4 offset-md-3 col-lg-4 offset-sm-2 col-sm-8 col-md-6 col-12 mx-auto px-auto">
+                <h1 class="text-center mb-2 mt-4">ورود</h1>
                 <hr>
 
                 <p class="text-right mt-4">اگر هنوز ثبت نام نکرده اید لطفا ابتدا در اینجا <a href="{{ signup_url }}">ثبت نام</a> کنید.</p>
 
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    
 
                     {{ form | crispy }}
-
-                    {% comment %} <div class="form-group">
-                        <div id="div_id_remember" class="form-check float-right">
-                            <input type="checkbox" name="remember" class="checkboxinput form-check-input" id="id_remember">
-                            <label for="id_remember" class="form-check-label mr-3">
-                                مرا به خاطر بسپار
-                            </label>
-                        </div>
-                    </div> {% endcomment %}
 
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
